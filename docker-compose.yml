@@ -1,0 +1,19 @@
+version: '2'
+services:
+  mariadb:
+    image: mariadb:10
+    ports:
+      - 3306:3306/tcp
+    environment:
+      - "MYSQL_ROOT_PASSWORD=root"
+    volumes:
+      - ./resources/databases/init:/docker-entrypoint-initdb.d
+  manabie-server:
+    build: .
+    environment:
+      - "MANABIE_ENV=production"
+      - "PORT=8989"
+      - "GIN_MODE=release"
+      - "MYSQL_DB_HOST=mariadb"
+    depends_on:
+      - mariadb
