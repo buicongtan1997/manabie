@@ -1,7 +1,9 @@
-version: '2'
+version: '2.1'
 services:
   manabie-server:
     build: .
+    ports:
+      - 8989:8989/tcp
     environment:
       - "MANABIE_ENV=production"
       - "PORT=8989"
@@ -19,7 +21,8 @@ services:
     volumes:
       - ./resources/databases/init:/docker-entrypoint-initdb.d
     healthcheck:
-      test: "/etc/init.d/mysql status"
-      interval: 1s
-      retries: 120
+      test: ["CMD", "mysqladmin" ,"ping"]
+      timeout: 20s
+      retries: 10
+
 
