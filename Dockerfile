@@ -6,7 +6,7 @@ COPY . .
 
 RUN go build -o build/manabie cmd/server/main.go
 
-FROM alpine:latest
+FROM debian:8
 RUN apk --no-cache add ca-certificates
 WORKDIR /src/
 COPY --from=builder /src/build/manabie .
